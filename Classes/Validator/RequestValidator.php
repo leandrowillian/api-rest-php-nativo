@@ -3,10 +3,22 @@
 // DECLARANDO NAMESPACE
 namespace Validator;
 
-class RequestValidator {
+class RequestValidator 
+{
 
-    public function __construct(){
-        echo "testando validator/autoload";
+    // Declarando atributos
+    private $request;
+
+    public function __construct($request)
+    {
+        $this->request = $request;
+    }
+
+    public function processaRequest()
+    {
+
+        var_dump($this->request);
+
     }
 
 

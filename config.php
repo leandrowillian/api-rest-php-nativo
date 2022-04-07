@@ -18,6 +18,8 @@ define(SENHA, '');
 define(DS, DIRECTORY_SEPARATOR);
 // Abreviando global de diretório
 define(DIR_APP, __DIR__);
+// Diretório do APP
+define(DIR_PROJETO, 'api-rest-php-nativo');
 
 // Incluindo o autoload
 if (file_exists('autoload.php')){
