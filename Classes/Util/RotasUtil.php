@@ -37,9 +37,10 @@ class RotasUtil
 
         // echo "<pre>";
         // var_dump($_SERVER);
+        // exit;
         // replace na string do indice REQUEST_URI da glovar $_SERVER. Procurando o caminha "/api-rest-php-nativo" e substituindo por nada. Assim teremos apenas a "rota" que o usuário está acessando e depois trataremos
         $uri = str_replace('/'.DIR_PROJETO, '', $_SERVER['REQUEST_URI']);
-
+        
         // função explode na uri quebrando pela barra
         return explode('/', trim($uri, '/'));
 

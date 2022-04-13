@@ -7,6 +7,7 @@ namespace Validator;
 use Util\ConstantesGenericasUtil;
 use Util\JsonUtil;
 use Repository\TokensAutorizadosRepository;
+use Service\UsuariosService;
 
 class RequestValidator 
 {
@@ -18,6 +19,7 @@ class RequestValidator
     // Constantes
     const GET = 'GET';
     const DELETE = 'DELETE';
+    const USUARIOS = 'USUARIOS';
 
     public function __construct($request)
     {
@@ -48,6 +50,33 @@ class RequestValidator
         }
 
         $this->tokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
+
+        // Pegando o método que está sendo chamado na requisição e atribuindo à variável $metodo, para que possamos criar uma função variável
+        $metodo = $this->request['metodo'];
+        // Criando o que no php tem o que antes tinha o nome de funções variáveis. O php irá chamar uma função com o que estará atribuido na variável.
+        return $this->$metodo();
+
+    }
+
+    //essa função será chamada pela função variável, caso o metodo no request seja "get"
+    private function get()
+    {
+        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_GET, true)){
+            switch ($this->request['rota']){
+                case self::USUARIOS:
+                    /**
+                     * @var mixed $usuariosService
+                     * Enviando os parametros da request como parametro do contrutor da classe UsuariosService e será atribuido ao atributo $dados;
+                     */
+                    $usuariosService = new UsuariosService($this->request);
+
+                    $retorno = $usuariosService->validarGet();
+                    
+            }
+        }
+
 
     }
     
