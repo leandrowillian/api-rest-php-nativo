@@ -5,6 +5,7 @@ include 'config.php';
 // namespaces
 use \Validator\RequestValidator;
 use \Util\RotasUtil;
+use Util\ConstantesGenericasUtil;
 
 
 // Tratamento de exceções
@@ -13,6 +14,10 @@ try{
         // Paramentro estamos passando o retorno da função estatica getRotas, da classe RotasUtil, que retorna um array contendo a "rota", "recurso", "id" e "metodo", para assim validarmos todas as infos da requisição
         $requestValidator = new RequestValidator(RotasUtil::getRotas());
     $retorno = $requestValidator->processaRequest();
+    
 }catch(Exception $e){
-    echo $e->getMessage();
+    echo json_encode([
+        ConstantesGenericasUtil::TIPO => ConstantesGenericasUtil::TIPO_ERRO,
+        ConstantesGenericasUtil::RESPOSTA => $e->getMessage()
+    ]);
 }

@@ -11,7 +11,7 @@ error_reporting(E_ERROR);
 // Criando globais para utilização do banco de dados
 define(HOST, 'localhost');
 define(BANCO, 'api-rest-php-nativo');
-define(USER, 'root');
+define(USUARIO, 'root');
 define(SENHA, '');
 
 // Abreviando global DIRECTORY_SEPARATOR (barra invertida)
