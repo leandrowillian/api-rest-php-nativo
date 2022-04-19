@@ -14,7 +14,7 @@ class RequestValidator
 {
     // Declarando atributos
     private $request;
-    private array $dadosRequest;
+    private array $dadosRequest = [];
     private object $tokensAutorizadosRepository;
 
     // Constantes
@@ -99,6 +99,33 @@ class RequestValidator
                      */
                     $usuariosService = new UsuariosService($this->request);
                     $retorno = $usuariosService->validarDelete();
+                    break;
+                default:
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+                    
+            }
+        }
+
+        return $retorno;
+
+
+    }
+
+    private function post()
+    {
+        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_POST, true)){
+            switch ($this->request['rota']){
+                case self::USUARIOS:
+                    /**
+                     * @var mixed $usuariosService
+                     * Enviando os parametros da request como parametro do contrutor da classe UsuariosService e será atribuido ao atributo $dados;
+                     */
+                    $usuariosService = new UsuariosService($this->request);
+                    // Método resposável por setar os dados vindos da request
+                    $usuariosService->setDadosCorpoRequest($this->dadosRequest);
+                    $retorno = $usuariosService->validarPost();
                     break;
                 default:
                     throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
