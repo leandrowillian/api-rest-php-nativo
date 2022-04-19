@@ -3,6 +3,7 @@
 namespace Util;
 
 use \JsonException;
+use InvalidArgumentException;
 
 class JsonUtil
 {
@@ -31,7 +32,8 @@ class JsonUtil
         header('Cache-Control: no-cache, no-store, must-revalidate');
         // Informando os métodos que a nossa aplicação aceita
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
+        // echo "oi";
+        // exit;
         echo json_encode($json);
         exit;
         

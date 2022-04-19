@@ -49,7 +49,7 @@ class RequestValidator
         if ($this->request['metodo'] !== self::GET && $this->request['metodo'] !== self::DELETE){
             $this->dadosRequest = JsonUtil::tratarCorpoRequisicaoJson();
         }
-
+        
         $this->tokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
 
         // Pegando o método que está sendo chamado na requisição e atribuindo à variável $metodo, para que possamos criar uma função variável
@@ -73,6 +73,32 @@ class RequestValidator
                      */
                     $usuariosService = new UsuariosService($this->request);
                     $retorno = $usuariosService->validarGet();
+                    break;
+                default:
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+                    
+            }
+        }
+
+        return $retorno;
+
+
+    }
+
+    //essa função será chamada pela função variável, caso o metodo no request seja "delete"
+    private function delete()
+    {
+        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_DELETE, true)){
+            switch ($this->request['rota']){
+                case self::USUARIOS:
+                    /**
+                     * @var mixed $usuariosService
+                     * Enviando os parametros da request como parametro do contrutor da classe UsuariosService e será atribuido ao atributo $dados;
+                     */
+                    $usuariosService = new UsuariosService($this->request);
+                    $retorno = $usuariosService->validarDelete();
                     break;
                 default:
                     throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);

@@ -24,12 +24,10 @@ class RotasUtil
 
         // Metodo requisitado -> POST/GET/PUT/DELETE
         $request['metodo'] = $_SERVER['REQUEST_METHOD'];
-
+       
         return $request;
         
-        // echo "<pre>";
-        // var_dump($request);
-
+        
     }
 
     public static function getUrls()
