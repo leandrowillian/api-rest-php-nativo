@@ -50,12 +50,20 @@ class UsuariosService
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
 
+        if($retorno === null){
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
+        }
+
+        return $retorno;
+
+
     }
 
     // Lista o usuario pelo id
     private function getOneByKey()
     {
-
+        return $this->usuariosRepository->getMySql()->getOneByKey(self::TABELA, $this->dados['id']);
+        
     }
 
     // Lista todos os usuarios da tabela usuarios
@@ -64,7 +72,7 @@ class UsuariosService
         /**
          * getMySql retorna a instancia da classe "MySql", que por sua vez, possui o método "getAll" que retorna todos os dados de uma tabela que é informada por parametro na sua chamada
          */
-        return $this->usuariosRepository->getMySql()->getAll(self::TABELA);;
+        return $this->usuariosRepository->getMySql()->getAll(self::TABELA);
         
     }
 

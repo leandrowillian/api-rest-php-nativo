@@ -8,6 +8,7 @@ use Util\ConstantesGenericasUtil;
 use Util\JsonUtil;
 use Repository\TokensAutorizadosRepository;
 use Service\UsuariosService;
+use InvalidArgumentException;
 
 class RequestValidator 
 {
@@ -71,11 +72,15 @@ class RequestValidator
                      * Enviando os parametros da request como parametro do contrutor da classe UsuariosService e será atribuido ao atributo $dados;
                      */
                     $usuariosService = new UsuariosService($this->request);
-
                     $retorno = $usuariosService->validarGet();
+                    break;
+                default:
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
                     
             }
         }
+
+        return $retorno;
 
 
     }
