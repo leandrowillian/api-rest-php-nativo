@@ -13,6 +13,7 @@ class UsuariosService
     public const RECURSOS_GET = ['listar'];
     public const RECURSOS_DELETE = ['deletar'];
     public const RECURSOS_POST = ['cadastrar'];
+    public const RECURSOS_PUT = ['atualizar'];
     private array $dados;
 
     private array $dadosCorpoRequest = [];
@@ -119,6 +120,39 @@ class UsuariosService
 
     }
 
+    public function validarPut()
+    {
+        $retorno = null;
+        $recurso = $this->dados['recurso'];
+        
+        /**
+         * Procura se há esse recurso na constante RECURSOS_DELETE que declaramos na criação da classe
+         */
+        if(in_array($recurso, self::RECURSOS_PUT, true)){
+            /**
+             * @var mixed $retorno
+             * Se existir id passado na rota (se for > 0), chamaremos o método de deletar por chave, no caso id
+             * Se não existir o id na rota, chamaremos um método para variável dependendo da rota acessada
+             */
+            if($this->dados['id'] > 0){
+                $retorno = $this->$recurso();
+            }else{
+                throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_ID_OBRIGATORIO);
+            }
+
+        }else{
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+        }
+
+        if($retorno === null){
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
+        }
+
+        return $retorno;
+
+
+    }
+
 
 
     public function setDadosCorpoRequest($dadosRequest)
@@ -178,6 +212,19 @@ class UsuariosService
         throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_LOGIN_SENHA_OBRIGATORIO);
         
       
+    }
+
+    private function atualizar()
+    {
+        if($this->usuariosRepository->updateUser($this->dados['id'], $this->dadosCorpoRequest) > 0){
+            $this->usuariosRepository->getMySql()->getDb()->commit();
+            return ConstantesGenericasUtil::MSG_ATUALIZADO_SUCESSO;
+        }
+
+        $this->usuariosRepository->getMySql()->getDb()->rollBack();
+        throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_NAO_AFETADO);
+
+
     }
 
 

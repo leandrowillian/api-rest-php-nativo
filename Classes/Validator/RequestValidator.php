@@ -27,7 +27,7 @@ class RequestValidator
         $this->request = $request;
         $this->tokensAutorizadosRepository = new TokensAutorizadosRepository();
     }
-
+    
     public function processaRequest()
     {
         // Utilizando utf8_encode para o JSON ficar formatado com esse charset
@@ -62,7 +62,7 @@ class RequestValidator
     //essa função será chamada pela função variável, caso o metodo no request seja "get"
     private function get()
     {
-        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+        $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
 
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_GET, true)){
             switch ($this->request['rota']){
@@ -88,7 +88,7 @@ class RequestValidator
     //essa função será chamada pela função variável, caso o metodo no request seja "delete"
     private function delete()
     {
-        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+        $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
 
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_DELETE, true)){
             switch ($this->request['rota']){
@@ -113,7 +113,7 @@ class RequestValidator
 
     private function post()
     {
-        $returno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+        $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
 
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_POST, true)){
             switch ($this->request['rota']){
@@ -137,5 +137,33 @@ class RequestValidator
 
 
     }
+    private function put()
+    {
+        $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
+
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_PUT, true)){
+            switch ($this->request['rota']){
+                case self::USUARIOS:
+                    /**
+                     * @var mixed $usuariosService
+                     * Enviando os parametros da request como parametro do contrutor da classe UsuariosService e será atribuido ao atributo $dados;
+                     */
+                    $usuariosService = new UsuariosService($this->request);
+                    // Método resposável por setar os dados vindos da request
+                    $usuariosService->setDadosCorpoRequest($this->dadosRequest);
+                    $retorno = $usuariosService->validarPut();
+                    break;
+                default:
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+                    
+            }
+        }
+
+        return $retorno;
+
+
+    }
+
+
     
 }
