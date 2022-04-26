@@ -11,7 +11,10 @@ use Util\ConstantesGenericasUtil;
 
 class TokensAutorizadosRepository
 {
-
+    /**
+     * Summary of 
+     * @var mixed
+     */
     private object $mySql;
     public const TABELA = "tokens_autorizados";
 

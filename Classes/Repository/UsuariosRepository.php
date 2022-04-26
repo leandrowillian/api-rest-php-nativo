@@ -10,6 +10,10 @@ use DB\MySql;
 class UsuariosRepository
 {
 
+    /**
+     * Summary of 
+     * @var mixed
+     */
     private object $mySql;
     public const TABELA = "usuarios";
 
@@ -21,6 +25,12 @@ class UsuariosRepository
         $this->mySql = new MySql();
     }
 
+    /**
+     * Summary of insertUser
+     * @param mixed $login
+     * @param mixed $senha
+     * @return int
+     */
     public function insertUser($login, $senha)
     {
 
@@ -35,7 +45,14 @@ class UsuariosRepository
 
     }
 
+
     // Método resposável por atualizar um usuário
+    /**
+     * Summary of updateUser
+     * @param mixed $id
+     * @param mixed $dados
+     * @return int
+     */
     public function updateUser($id, $dados)
     {
         $sql = "UPDATE " . self::TABELA . " SET login = :l, senha = :s WHERE id = :id";

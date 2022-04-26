@@ -9,6 +9,11 @@ class JsonUtil
 {
 
     // Função responsável por receber o nosso arryay do retorno da requisição e tratar e converte-lo em Json
+    /**
+     * Summary of processarArrayParaRetornar
+     * @param mixed $retorno
+     * @return void
+     */
     public function processarArrayParaRetornar($retorno)
     {
         $dados = [];
@@ -23,7 +28,11 @@ class JsonUtil
         $this->retornarJson($dados);
     }
 
-
+    /**
+     * Summary of retornarJson
+     * @param mixed $json
+     * @return void
+     */
     private function retornarJson($json)
     {
         // Alterando o content-type no header da requisição
@@ -39,7 +48,10 @@ class JsonUtil
         
     }
 
-
+    /**
+     * Summary of tratarCorpoRequisicaoJson
+     * @return array
+     */
     public static function tratarCorpoRequisicaoJson()
     {
         try{

@@ -14,7 +14,17 @@ class RequestValidator
 {
     // Declarando atributos
     private $request;
+    
+    /**
+     * Summary of 
+     * @var array
+     */
     private array $dadosRequest = [];
+
+    /**
+     * Summary of 
+     * @var object/TokensAutorizadosRepository
+     */
     private object $tokensAutorizadosRepository;
 
     // Constantes
@@ -22,12 +32,20 @@ class RequestValidator
     const DELETE = 'DELETE';
     const USUARIOS = 'USUARIOS';
 
+    /**
+     * Summary of __construct
+     * @param mixed $request
+     */
     public function __construct($request)
     {
         $this->request = $request;
         $this->tokensAutorizadosRepository = new TokensAutorizadosRepository();
     }
     
+    /**
+     * Summary of processaRequest
+     * @return string
+     */
     public function processaRequest()
     {
         // Utilizando utf8_encode para o JSON ficar formatado com esse charset
@@ -43,6 +61,10 @@ class RequestValidator
     }
 
     // Método privado pois somente essa classe pode chamá-lo
+    /**
+     * Summary of direcionarRequest
+     * @return mixed
+     */
     private function direcionarRequest()
     {
         // Declaramos esse if para separadar quais requisições precisamos de um corpo na requisição. GET e DELETE não precisam, pois o GET só vai listar e o DELETE vai excluir de acordo com o id passado já na url
@@ -60,6 +82,10 @@ class RequestValidator
     }
 
     //essa função será chamada pela função variável, caso o metodo no request seja "get"
+    /**
+     * Summary of get
+     * @return mixed
+     */
     private function get()
     {
         $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
@@ -86,6 +112,10 @@ class RequestValidator
     }
 
     //essa função será chamada pela função variável, caso o metodo no request seja "delete"
+    /**
+     * Summary of delete
+     * @return mixed
+     */
     private function delete()
     {
         $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
@@ -111,6 +141,10 @@ class RequestValidator
 
     }
 
+    /**
+     * Summary of post
+     * @return mixed
+     */
     private function post()
     {
         $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;
@@ -137,6 +171,11 @@ class RequestValidator
 
 
     }
+
+    /**
+     * Summary of put
+     * @return mixed
+     */
     private function put()
     {
         $retorno = ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA;

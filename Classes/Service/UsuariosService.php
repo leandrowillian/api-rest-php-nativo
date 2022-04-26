@@ -14,19 +14,28 @@ class UsuariosService
     public const RECURSOS_DELETE = ['deletar'];
     public const RECURSOS_POST = ['cadastrar'];
     public const RECURSOS_PUT = ['atualizar'];
+
+    /**
+     * Summary of 
+     * @var array
+     */
     private array $dados;
 
+    /**
+     * Summary of 
+     * @var array
+     */
     private array $dadosCorpoRequest = [];
 
     /**
      * Summary of 
-     * @var mixed
+     * @var object/UsuariosRepository
      */
     private object $usuariosRepository;
 
     /**
      * Summary of __construct
-     * @param mixed $dados
+     * @param array $dados
      */
     public function __construct($dados = [])
     {
@@ -34,7 +43,10 @@ class UsuariosService
         $this->usuariosRepository = new UsuariosRepository();
     }
 
-
+    /**
+     * Summary of validarGet
+     * @return mixed
+     */
     public function validarGet()
     {
         $retorno = null;
@@ -55,15 +67,17 @@ class UsuariosService
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
 
-        if($retorno === null){
-            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
-        }
+        $this->validarRetornoRequest($retorno);
 
         return $retorno;
 
 
     }
 
+    /**
+     * Summary of validarDelete
+     * @return mixed
+     */
     public function validarDelete()
     {
         $retorno = null;
@@ -76,26 +90,24 @@ class UsuariosService
             /**
              * @var mixed $retorno
              * Se existir id passado na rota (se for > 0), chamaremos o método de deletar por chave, no caso id
-             * Se não existir o id na rota, chamaremos um método para variável dependendo da rota acessada
              */
-            if($this->dados['id'] > 0){
-                $retorno = $this->$recurso();
-            }else{
-                throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_ID_OBRIGATORIO);
-            }
+            $retorno = $this->validarIdObrigatorio($recurso);
 
         }else{
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
 
-        if($retorno === null){
-            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
-        }
+        $this->validarRetornoRequest($retorno);
 
         return $retorno;
 
 
     }
+
+    /**
+     * Summary of validarPost
+     * @return mixed
+     */
     public function validarPost()
     {
         $retorno = null;
@@ -111,15 +123,17 @@ class UsuariosService
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
 
-        if($retorno === null){
-            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
-        }
+        $this->validarRetornoRequest($retorno);
 
         return $retorno;
 
 
     }
 
+    /**
+     * Summary of validarPut
+     * @return mixed
+     */
     public function validarPut()
     {
         $retorno = null;
@@ -131,28 +145,20 @@ class UsuariosService
         if(in_array($recurso, self::RECURSOS_PUT, true)){
             /**
              * @var mixed $retorno
-             * Se existir id passado na rota (se for > 0), chamaremos o método de deletar por chave, no caso id
-             * Se não existir o id na rota, chamaremos um método para variável dependendo da rota acessada
+             * Se existir id passado na rota (se for > 0), chamaremos o método de atualizar por chave, no caso id
              */
-            if($this->dados['id'] > 0){
-                $retorno = $this->$recurso();
-            }else{
-                throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_ID_OBRIGATORIO);
-            }
+            $retorno = $this->validarIdObrigatorio($recurso);
 
         }else{
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
 
-        if($retorno === null){
-            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
-        }
+        $this->validarRetornoRequest($retorno);
 
         return $retorno;
 
 
     }
-
 
 
     public function setDadosCorpoRequest($dadosRequest)
@@ -225,6 +231,36 @@ class UsuariosService
         throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_NAO_AFETADO);
 
 
+    }
+
+    /**
+     * Summary of validarIdObrigatorio
+     * @param mixed $recurso
+     * @return mixed
+     */
+    private function validarIdObrigatorio($recurso)
+    {
+
+        if($this->dados['id'] > 0){
+            $retorno = $this->$recurso();
+        } else{
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_ID_OBRIGATORIO);
+        }
+        
+        return $retorno;
+
+    }
+
+    /**
+     * Summary of validarRetornoRequest
+     * @param mixed $retorno
+     * @return void
+     */
+    private function validarRetornoRequest($retorno)
+    {
+        if ($retorno === null){
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
+        }
     }
 
 

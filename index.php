@@ -3,8 +3,8 @@
 // Incluindo arquivo de configurações
 include 'config.php';
 // namespaces
-use \Validator\RequestValidator;
-use \Util\RotasUtil;
+use Validator\RequestValidator;
+use Util\RotasUtil;
 use Util\ConstantesGenericasUtil;
 use Util\JsonUtil;
 
@@ -24,5 +24,6 @@ try{
     echo json_encode([
         ConstantesGenericasUtil::TIPO => ConstantesGenericasUtil::TIPO_ERRO,
         ConstantesGenericasUtil::RESPOSTA => $e->getMessage()
-    ]);
+    ], JSON_THROW_ON_ERROR);
+    exit;
 }

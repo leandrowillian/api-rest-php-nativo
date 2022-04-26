@@ -6,6 +6,10 @@ namespace Util;
 class RotasUtil
 {
 
+    /**
+     * Summary of getRotas
+     * @return array
+     */
     public static function getRotas()
     {
         $urls = self::getUrls();
@@ -30,6 +34,10 @@ class RotasUtil
         
     }
 
+    /**
+     * Summary of getUrls
+     * @return bool|string[]
+     */
     public static function getUrls()
     {
 
